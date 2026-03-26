@@ -4,6 +4,7 @@ import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { listarTareas, crearTarea, actualizarTarea, eliminarTarea } from "@/services/tareas";
 import { MESSAGES } from "@/constants/messages";
+import { getAccessToken } from "@/services/session";
 
 /**
  * Tarea: Entidad del dominio
@@ -41,6 +42,8 @@ interface Tarea {
  * - Edición inline con modo read-only y edit mode alternables
  */
 export default function CrudTareas() {
+  const SESSION_REQUIRED_MESSAGE = "Debes iniciar sesion para consultar tareas.";
+
   // Estado de la lista de tareas
   const [tareas, setTareas] = useState<Tarea[]>([]);
 
@@ -95,6 +98,14 @@ export default function CrudTareas() {
   };
 
   const cargarTareas = useCallback(async () => {
+    if (!getAccessToken()) {
+      setTareas([]);
+      setCargando(false);
+      setBackendDisponible(true);
+      setError(SESSION_REQUIRED_MESSAGE);
+      return;
+    }
+
     try {
       setCargando(true);
       const res = await listarTareas();
@@ -110,6 +121,15 @@ export default function CrudTareas() {
     }
   }, []);
 
+  const ensureAuthenticated = () => {
+    if (getAccessToken()) {
+      return true;
+    }
+
+    setError(SESSION_REQUIRED_MESSAGE);
+    return false;
+  };
+
   /**
    * useEffect: Carga inicial de tareas
    * Se ejecuta una sola vez al montar el componente (dependencies array vacío)
@@ -117,6 +137,17 @@ export default function CrudTareas() {
    */
   useEffect(() => {
     void cargarTareas();
+  }, [cargarTareas]);
+
+  useEffect(() => {
+    const onAuthUpdated = () => {
+      void cargarTareas();
+    };
+
+    window.addEventListener("sips-auth-updated", onAuthUpdated);
+    return () => {
+      window.removeEventListener("sips-auth-updated", onAuthUpdated);
+    };
   }, [cargarTareas]);
 
   /**
@@ -131,6 +162,10 @@ export default function CrudTareas() {
    * - Todas las nuevas tareas comienzan con estado completada=false
    */
   const handleCrear = async () => {
+    if (!ensureAuthenticated()) {
+      return;
+    }
+
     if (!backendDisponible) {
       setError(MESSAGES.ERROR_BACKEND_UNAVAILABLE);
       return;
@@ -162,6 +197,10 @@ export default function CrudTareas() {
    * - Mantiene el resto de los datos sin cambios
    */
   const toggleCompletada = async (tarea: Tarea) => {
+    if (!ensureAuthenticated()) {
+      return;
+    }
+
     if (!backendDisponible) {
       setError(MESSAGES.ERROR_BACKEND_UNAVAILABLE);
       return;
@@ -190,6 +229,10 @@ export default function CrudTareas() {
    * - Se ejecuta inmediatamente (sin confirmación en esta versión)
    */
   const handleEliminar = async (id: number) => {
+    if (!ensureAuthenticated()) {
+      return;
+    }
+
     if (!backendDisponible) {
       setError(MESSAGES.ERROR_BACKEND_UNAVAILABLE);
       return;
@@ -232,6 +275,10 @@ export default function CrudTareas() {
    * - Recarga la lista
    */
   const guardarEdicion = async (id: number) => {
+    if (!ensureAuthenticated()) {
+      return;
+    }
+
     if (!backendDisponible) {
       setError(MESSAGES.ERROR_BACKEND_UNAVAILABLE);
       return;

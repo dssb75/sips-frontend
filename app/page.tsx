@@ -1,9 +1,20 @@
-import CrudTareas from "@/components/CrudTareas";
+"use client";
 
-/**
- * HomePage: Página principal de la aplicación
- * Renderiza el componente principal de gestión de tareas CRUD
- */
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { readSession } from "@/services/session";
+
 export default function HomePage() {
-  return <CrudTareas />;
+  const router = useRouter();
+
+  useEffect(() => {
+    const session = readSession();
+    if (session?.auth?.access_token) {
+      router.replace("/dashboard");
+    } else {
+      router.replace("/login");
+    }
+  }, [router]);
+
+  return null;
 }

@@ -1,5 +1,5 @@
-import axios from 'axios';
 import { CONFIG } from '@/config/environment';
+import { httpClient } from '@/services/httpClient';
 
 /**
  * Tarea: Modelo de datos para una tarea
@@ -19,9 +19,6 @@ interface Tarea {
 
 // Configuración del cliente HTTP
 const API_URL = CONFIG.api.endpoints.tasks;
-const apiClient = axios.create({
-  timeout: CONFIG.api.timeout,
-});
 
 /**
  * listarTareas: Obtiene la lista completa de tareas del servidor
@@ -40,7 +37,7 @@ const apiClient = axios.create({
  */
 export const listarTareas = async (): Promise<Tarea[]> => {
   try {
-    const response = await apiClient.get(API_URL);
+    const response = await httpClient.get(API_URL);
     return response.data || [];
   } catch (error) {
     console.error('Error al listar tareas:', error);
@@ -68,7 +65,7 @@ export const listarTareas = async (): Promise<Tarea[]> => {
  */
 export const crearTarea = async (tarea: Tarea): Promise<Tarea> => {
   try {
-    const response = await apiClient.post(API_URL, tarea);
+    const response = await httpClient.post(API_URL, tarea);
     return response.data;
   } catch (error) {
     console.error('Error al crear tarea:', error);
@@ -95,7 +92,7 @@ export const crearTarea = async (tarea: Tarea): Promise<Tarea> => {
  */
 export const actualizarTarea = async (tarea: Tarea): Promise<Tarea> => {
   try {
-    const response = await apiClient.put(`${API_URL}/update`, tarea);
+    const response = await httpClient.put(`${API_URL}/update`, tarea);
     return response.data;
   } catch (error) {
     console.error('Error al actualizar tarea:', error);
@@ -122,7 +119,7 @@ export const actualizarTarea = async (tarea: Tarea): Promise<Tarea> => {
  */
 export const eliminarTarea = async (id: number): Promise<void> => {
   try {
-    await apiClient.delete(`${API_URL}/delete?id=${id}`);
+    await httpClient.delete(`${API_URL}/delete?id=${id}`);
   } catch (error) {
     console.error('Error al eliminar tarea:', error);
     throw error;

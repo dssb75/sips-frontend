@@ -15,6 +15,9 @@ export const CONFIG = {
       tasks: "/api/tasks",
       taskUpdate: "/api/tasks/update",
       taskDelete: "/api/tasks/delete",
+      authLogin: "/api/auth/login",
+      authRefresh: "/api/auth/refresh",
+      emailSend: "/api/email/send",
     },
 
     // Timeouts
