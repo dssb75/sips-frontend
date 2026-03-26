@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/tareas';
+const API_URL = 'http://localhost:8080/tasks';
 
 export const listarTareas = async () => {
   const response = await axios.get(API_URL);
@@ -8,13 +8,15 @@ export const listarTareas = async () => {
 }
 
 export const crearTarea = async (tarea) => {
-  await axios.post(API_URL, tarea);
-}       
+  const response = await axios.post(API_URL, tarea);
+  return response.data;
+}
 
 export const actualizarTarea = async (tarea) => {
-  await axios.put(`${API_URL}/${tarea.id}`, tarea);
+  const response = await axios.put(`${API_URL}/update`, tarea);
+  return response.data;
 }
 
 export const eliminarTarea = async (id) => {
-  await axios.delete(`${API_URL}/${id}`);
+  await axios.delete(`${API_URL}/delete?id=${id}`);
 }
