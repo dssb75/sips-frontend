@@ -63,8 +63,7 @@ export default function EmailPanel() {
   return (
     <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
       <div className="mb-4">
-        <h2 className="text-xl font-bold text-slate-800">Envio de correo HTML</h2>
-        <p className="mt-1 text-sm text-slate-500">Envia un correo en formato HTML a traves de la API.</p>
+        <h2 className="text-xl font-bold text-slate-800">Envio de correo HTML</h2>          
       </div>
 
       <form onSubmit={handleSend} className="max-w-xl space-y-3">

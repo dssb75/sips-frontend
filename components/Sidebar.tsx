@@ -6,7 +6,12 @@ import { clearSession } from "@/services/session";
 
 const navItems = [
   { href: "/dashboard", label: "Inicio", icon: "⊞" },
-  { href: "/dashboard/tareas", label: "Tareas", icon: "✓" },
+  { href: "/dashboard/solicitudes", label: "Solicitudes", icon: "◫" },
+  { href: "/dashboard/composicion", label: "Composicion", icon: "▦" },
+  { href: "/dashboard/asignacion", label: "Reporte composicion sindicalizados", icon: "⇌" },
+  { href: "/dashboard/consulta-documento", label: "Consulta SOAP", icon: "◎" },
+  { href: "/dashboard/sindicatos", label: "Sindicatos", icon: "☰" },
+  { href: "/dashboard/sindicalizados", label: "Sindicalizados", icon: "👥" },
   { href: "/dashboard/email", label: "Correo", icon: "✉" },
 ];
 

@@ -17,7 +17,7 @@ export default function LoginPage() {
   }, []);
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200 px-4">
+    <main className="flex h-full min-h-full items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200 px-4 py-6">
       <div className="w-full max-w-sm space-y-4">
         {backendMsg && (
           <div className="rounded-xl border border-red-200 bg-red-50 p-4">

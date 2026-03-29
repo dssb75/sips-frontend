@@ -94,7 +94,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   if (!ready) return null;
 
   return (
-    <div className="flex h-screen bg-slate-50">
+    <div className="flex h-full min-h-0 bg-slate-50">
       {backendError && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
           <div className="mx-4 w-full max-w-md rounded-2xl border border-red-200 bg-white p-6 shadow-xl">

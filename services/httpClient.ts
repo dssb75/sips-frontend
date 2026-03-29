@@ -23,6 +23,8 @@ httpClient.interceptors.request.use((config) => {
 
 const isBackendDown = (error: unknown): boolean => {
   if (!axios.isAxiosError(error)) return false;
+  // Timeout del cliente no siempre implica backend caido.
+  if (error.code === "ECONNABORTED") return false;
   // Sin respuesta: timeout o backend caído directamente
   if (!error.response) return true;
   // 502/503/504: el proxy de Next.js no pudo alcanzar el backend
@@ -42,7 +44,11 @@ const isBackendDown = (error: unknown): boolean => {
 httpClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (isBackendDown(error) && typeof window !== "undefined") {
+    const skipBackendDownEvent =
+      axios.isAxiosError(error) &&
+      (error.config as { suppressBackendDownEvent?: boolean } | undefined)?.suppressBackendDownEvent;
+
+    if (!skipBackendDownEvent && isBackendDown(error) && typeof window !== "undefined") {
       const message =
         axios.isAxiosError(error) && error.message ? error.message : "Error de conexion con el servidor";
       window.dispatchEvent(new CustomEvent("sips-backend-down", { detail: { message } }));

@@ -12,16 +12,31 @@ export const CONFIG = {
     
     // Endpoints específicos
     endpoints: {
-      tasks: "/api/tasks",
-      taskUpdate: "/api/tasks/update",
-      taskDelete: "/api/tasks/delete",
       authLogin: "/api/auth/login",
       authRefresh: "/api/auth/refresh",
       emailSend: "/api/email/send",
+      calendarVigencia: "/api/calendar/vigencia",
+      calendarYear: "/api/calendar/year",
+      calendarSelection: "/api/calendar/selection",
+      calendarPreview: "/api/calendar/preview",
+      solicitudesCreate: "/api/solicitudes/create",
+      solicitudesList: "/api/solicitudes/list",
+      solicitudesPending: "/api/solicitudes/pending",
+      solicitudesRadicar: "/api/solicitudes/radicar",
+      solicitudesDelete: "/api/solicitudes/delete",
+      solicitudesEditor: "/api/solicitudes/editor",
+      solicitudesPermisosToggle: "/api/solicitudes/permisos/toggle",
+      solicitudesPermisosBulk: "/api/solicitudes/permisos/bulk",
+      sindicalizados: "/api/sindicalizados",
+      sindicalizadosAsignar: "/api/sindicalizados/asignar",
+      sindicatos: "/api/sindicatos",
+      composiciones: "/api/composiciones",
+      busdatosConsultaDocumento: "/api/busdatos/consulta-documento",
+      solicitudesMine: "/api/solicitudes/mis",
     },
 
     // Timeouts
-    timeout: 5000, // 5 segundos
+    timeout: 20000, // 20 segundos
   },
 
   // Application Mode
